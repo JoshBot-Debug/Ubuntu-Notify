@@ -1,0 +1,5 @@
+{
+    "python.pythonPath": "/home/jjmyers/Desktop/Projects/Python Projects/Ubuntu Notify/env/bin/python3",
+    "python.linting.pylintEnabled": true,
+    "python.linting.enabled": true
+}
