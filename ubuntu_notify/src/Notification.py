@@ -7,12 +7,12 @@ class Notification(NotificationInterface):
         This class is used to send notifications to Ubuntu using subprocess.Popen(["notify-send",Message])
     '''
 
-    def __init__(self, Message: str, AutoFire = True):
+    def __init__(self, Message: dict, AutoFire = True):
         if AutoFire:
             self.send(Message)
 
 
-    def send(self, Message: str) -> bool:
+    def send(self, Message: dict) -> bool:
         icon = os.path.realpath(__file__).replace("Notification.py","")+"gicon.png"
         eFrom = search("(.*) <",Message['from']).group(1)
 

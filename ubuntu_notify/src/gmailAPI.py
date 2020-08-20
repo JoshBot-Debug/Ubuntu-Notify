@@ -15,9 +15,8 @@ class GmailApi:
 
 
     def __init__(self):
-        """Shows basic usage of the Gmail API.
-        Lists the user's Gmail labels.
-        """
+        """ Makes the connection to the Gmail """
+
         creds = None
         # The file token.pickle stores the user's access and refresh tokens, and is
         # created automatically when the authorization flow completes for the first
@@ -41,11 +40,13 @@ class GmailApi:
 
 
     def getLatestEmail(self) -> dict:
-        # Call the Gmail API
+        """ Get the most recent email received if it is unread """
 
+        # Get the latest email that's unread
         response = self.__getContent("me")
         notificationData = {}
 
+        # Format and save the data in a dict. Return the dict.
         if "UNREAD" in response['labelIds'] and "CATEGORY_PROMOTIONS" not in response['labelIds'] and "CATEGORY_SOCIAL" not in response['labelIds']:
             for x in response["payload"]["headers"]:
                 if x["name"] == "Delivered-To":
@@ -56,13 +57,14 @@ class GmailApi:
                     notificationData.update({"date": x["value"]})
                 if x["name"] == "Subject":
                     notificationData.update({"subject": x["value"]})
-
+            
             return notificationData
         
         return notificationData
 
 
     def __getContent(self, user_id: str):
+        """ Make the call to the Gmail API """
         try:
             emailID = self.__service.users().messages().list(userId=user_id).execute()["messages"][0]["id"]
             return self.__service.users().messages().get(userId=user_id, id=emailID).execute()
